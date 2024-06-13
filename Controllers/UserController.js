@@ -1,11 +1,11 @@
-const models=require('../Models')
+const userModel=require('../Models/User')
 const bcryptjs=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 
 
 function signUp(req,res){
 
-    models.User.findOne({where : {email : req.body.email}}).then(result=>{
+    userModel.findOne({where : {email : req.body.email}}).then(result=>{
         if(result)
             res.status(409).json({
                     message: "Email already exists"
@@ -21,7 +21,7 @@ function signUp(req,res){
             
                 }
             
-                models.User.creat(user).then(result=>{
+                userModel.creat(user).then(result=>{
                     res.status(201).json({
                         message: "User created succesfully!"
                        
@@ -41,7 +41,7 @@ function signUp(req,res){
 
 
 function logIn(req,res){
-    models.user.findOne({where : {email : req.body.email} }).then(user=>{
+    userModel.findOne({where : {email : req.body.email} }).then(user=>{
         if(user==null){
             res.status(401).json({
                 message: "Invalid information!"  

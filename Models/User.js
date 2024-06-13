@@ -11,7 +11,7 @@ class UserModel{
                 else {
                     console.log("error",e)
                     resolve(false)
-                }
+                }m
                     
             })
         })
