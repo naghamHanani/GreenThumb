@@ -3,18 +3,32 @@ const jwt=require("jsonwebtoken")
 const JWT_SECRET_KEY = '16#18'; 
 
 function checkAuth(req,res,next){
-    try{
-        const token =req.header.authorization.split(" ")[1] // will be sth like : Bearer @#fj3d#2vn3ke, so we need the 2nd part not the Bearer part [1] not [0] of the split result
-        const decodedToken=jwt.verify(token,process.env.JWT_KEY)
-        req.userData= decodedToken
-        next()
-    }catch(e){
-        return res.status(401).json({
-            "message": "Invalid or expired token provided!",
-            "error" : e
-        })
+    const token = req.header('Authorization');
 
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized. No token provided.' });
     }
+
+    jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Forbidden. Invalid token.' });
+        }
+
+        const sql = 'SELECT token FROM tokens WHERE token = ?';
+        connection.execute(sql, [token], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'An error occurred while verifying token.' });
+            }
+
+            if (results.length === 0) {
+                return res.status(403).json({ message: 'Forbidden. Invalid token.' });
+            }
+
+            req.user = decoded;
+            next();
+        });
+    });
 }
 
 module.exports={

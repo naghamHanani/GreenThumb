@@ -17,6 +17,8 @@ router.patch("/resources",resRoute)
 
 router.post('/sign-up',userRoute)
 router.post('/log-in',userRoute)
+router.post('/log-out',userRoute)
+
 
 
 

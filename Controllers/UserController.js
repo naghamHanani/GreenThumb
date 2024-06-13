@@ -65,6 +65,7 @@ function logIn(req,res){
                             storeTokenInDatabase(user.email,token)
                         res.status(200).json({
                             message : "Login successful!",
+                            toke:token
                             
                         });
 
@@ -89,6 +90,24 @@ function logIn(req,res){
 
 }
 
+function logOut(req,res){
+    const token = req.header('Authorization');
+    
+    userModel.deleteToken(token).then(result=>{
+     console.log('Token removed from the database');
+     return res.status(200).json( {
+        "message": "Logout successful!"
+    })
+    }).catch(error=>{
+        console.error(error);
+        return res.status(500).json({ error: 'An error occurred while logging out' });
+     
+    })
+    
+
+}
+
+
 function storeTokenInDatabase(email, token) {
 
     userModel.creatToken(token,email).then((result) => {
@@ -103,5 +122,6 @@ function storeTokenInDatabase(email, token) {
 
 module.exports = {
     signUp :signUp,
-    logIn : logIn
+    logIn : logIn,
+    logOut:logOut
 }

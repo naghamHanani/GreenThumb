@@ -49,7 +49,20 @@ class UserModel{
             });
 
     });
-}
+    }
+
+    static async deleteToken(token){
+        return new Promise(resolve=>{
+            db.query("delete from tokens where token=?",[token],(e,r)=>{
+                if(e){
+                    resolve(false)
+                }
+                else
+                    resolve (true)
+            })
+        })
+    }
+    
 
     
 }
