@@ -1,5 +1,6 @@
 const jwt=require("jsonwebtoken")
 
+const JWT_SECRET_KEY = '16#18'; 
 
 function checkAuth(req,res,next){
     try{
@@ -17,5 +18,7 @@ function checkAuth(req,res,next){
 }
 
 module.exports={
-    checkAuth : checkAuth
+    checkAuth : checkAuth,
+    JWT_SECRET_KEY
+
 }
