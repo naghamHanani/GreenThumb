@@ -1,14 +1,15 @@
 const jwt=require("jsonwebtoken")
-
+const connection =require('../Config/DBconnection')
 const JWT_SECRET_KEY = '16#18'; 
 
 function checkAuth(req,res,next){
-    const token = req.header('Authorization');
-
+    const token = req.header('Authorization').split(' ')[1];
+    
     if (!token) {
+        console.log('Unauthorized. No token provided.')
         return res.status(401).json({ message: 'Unauthorized. No token provided.' });
-    }
-
+    }   
+    else {
     jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Forbidden. Invalid token.' });
@@ -26,9 +27,12 @@ function checkAuth(req,res,next){
             }
 
             req.user = decoded;
+           
             next();
         });
-    });
+    }); 
+}
+
 }
 
 module.exports={
