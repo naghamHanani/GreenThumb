@@ -58,9 +58,9 @@ class ResourceController{
         
         userModel.findOne('email',email).then(async user=>{
 
-            db.query('select id from users where email=?',[email],async (er,rest)=>{
-                db.query('select ownerID from resources where id=?',[id],async(e,re)=>{
-                    if(parseInt(re[0].ownerID) === rest[0].id){
+            db.query('select id , role from users where email=?',[email],async (er,rest)=>{     
+                db.query('select ownerID from resources where id=?',[id],async(e,re)=>{           
+                    if((parseInt(re[0].ownerID) === rest[0].id) || (rest[0].role=='admin')){
                         console.log(er,rest)
                     const error=validationResult(req)
                      if(!error.isEmpty()){
@@ -101,6 +101,7 @@ class ResourceController{
         for (let i = 0; i < fieldNames.length; i++) {
           sql += `${fieldNames[i]} = ?`;
           if (i < fieldNames.length - 1) {
+            console.log(fieldNames[i])
             sql += ', ';
           }
         }
@@ -111,9 +112,9 @@ class ResourceController{
 
         userModel.findOne('email',email).then(async user=>{
 
-            db.query('select id from users where email=?',[email],async (er,rest)=>{
+            db.query('select id , role from users where email=?',[email],async (er,rest)=>{
                 db.query('select ownerID from resources where id=?',[id],async(e,re)=>{
-                    if(parseInt(re[0].ownerID) === rest[0].id){
+                    if((parseInt(re[0].ownerID) === rest[0].id)||(rest[0].role=='admin')){
                         db.query(
                             sql,
                             fieldValues,
@@ -141,6 +142,18 @@ class ResourceController{
     }).catch(e=>{
         res.send("Youre not logged in")
     })    
+    }
+
+
+
+    static async getResourceById(req,res){
+
+        var results = await resourceModel.findOne('id',req.params.id)
+       if (results)
+        res.send(results)
+       else{
+        res.status(404).json({ error: 'Resource not found' })
+       }
     }
 
 }

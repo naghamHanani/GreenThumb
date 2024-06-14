@@ -1,9 +1,12 @@
+
 const express= require('express')
 const mydb=require('./Config/DBconnection')
 const app=express();
 
 const resRouter=require('./Routes/ResourcesRouter')
 const userRoute=require('./Routes/AuthenticationRouter')
+const trefleRouter=require('./Routes/TrefleRouter')
+
 const bodyparser=require('body-parser')
 const {check}=require("express-validator")
 
@@ -15,6 +18,8 @@ app.get('/',(req,res,next)=>{
 })
 
 app.use('/resources',resRouter)
+
+app.use('/trefle',trefleRouter)
 
 app.post('/sign-up',userRoute)
 app.post('/log-in',userRoute)

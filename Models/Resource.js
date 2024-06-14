@@ -12,6 +12,21 @@ class ResourceModel{
             })
         })
     }
+    static async findOne(fieldName,fieldValue) {
+       
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM resources WHERE ${fieldName} = ?`;
+            db.query(sql, [fieldValue], (err, results) => {
+                if (err) {
+                    reject(err);
+                    console.log(err)
+                } else {
+                    
+                    resolve(results.length > 0 ? results[0] : null);
+                }
+            });
+        });
+    }
 
     static async addResource(name,type,availability,ownerID){
 
@@ -49,6 +64,9 @@ class ResourceModel{
     //     })
     // })
     // }
+
+
+    
 }
 
 module.exports=ResourceModel
