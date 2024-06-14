@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2024 at 04:42 PM
+-- Generation Time: Jun 14, 2024 at 10:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,58 @@ SET time_zone = "+00:00";
 --
 -- Database: `greenthumb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity`
+--
+
+CREATE TABLE `activity` (
+  `AID` int(20) NOT NULL,
+  `ActivityName` varchar(50) NOT NULL,
+  `Period_of_time` int(20) NOT NULL,
+  `gardenID` int(20) NOT NULL,
+  `Event_manage_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `activity`
+--
+
+INSERT INTO `activity` (`AID`, `ActivityName`, `Period_of_time`, `gardenID`, `Event_manage_id`) VALUES
+(2, 'Garden cleaning', 8, 8, 3),
+(4, 'Watering plants', 3, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `communitygardens`
+--
+
+CREATE TABLE `communitygardens` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `availablePlots` int(11) NOT NULL,
+  `growingConditions` text NOT NULL,
+  `ownerID` int(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `crops`
+--
+
+CREATE TABLE `crops` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `plantingDate` date NOT NULL,
+  `harvestDate` date DEFAULT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -44,7 +96,29 @@ CREATE TABLE `knowledge` (
 --
 
 INSERT INTO `knowledge` (`id`, `userID`, `title`, `content`, `author`, `created_at`, `updated_at`, `total_rating`, `num_ratings`) VALUES
-(2, 2, 'Watering Plants in winter', 'Remember to adjust your watering habits for winter! Check soil moisture regularly and water less frequently to accommodate slower growth. Morning watering and using room temperature water can help too.', 'John Doey', '2024-06-14 16:17:11', '2024-06-14 17:34:32', 4, 2);
+(2, 2, 'Watering Plants in winter', 'Remember to adjust your watering habits for winter! Check soil moisture regularly and water less frequently to accommodate slower growth. Morning watering and using room temperature water can help too.', 'John Doey', '2024-06-14 16:17:11', '2024-06-14 17:34:32', 4, 2),
+(3, 2, 'Your Knowledge Title', 'Your Knowledge Content', 'Author Name', '2024-06-14 18:21:19', '2024-06-14 18:21:19', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localpartnership`
+--
+
+CREATE TABLE `localpartnership` (
+  `idProduct` int(20) NOT NULL,
+  `Product` varchar(50) NOT NULL,
+  `company` varchar(50) NOT NULL,
+  `CostPrice` int(20) NOT NULL,
+  `AdvertisementDuration` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `localpartnership`
+--
+
+INSERT INTO `localpartnership` (`idProduct`, `Product`, `company`, `CostPrice`, `AdvertisementDuration`) VALUES
+(12, 'cheese', 'zw', 20, 1);
 
 -- --------------------------------------------------------
 
@@ -107,7 +181,7 @@ CREATE TABLE `tokens` (
 --
 
 INSERT INTO `tokens` (`id`, `token`, `userEmail`) VALUES
-(6, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hZGlhQGdtYWlsLmNvbSIsInVzZXJJZCI6NiwiaWF0IjoxNzE4Mzc1MTczfQ.YEy8apVV3oQMSzIpWMAj185TjTO47e5VgTLBk9ycDfM', 'nadia@gmail.com');
+(8, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJ1c2VySWQiOjIsImlhdCI6MTcxODM3NzM5NH0.gFqT5-g0GXgD4D8jEi8wjgA3YVGMnb2UozT5WCUGSdI', 'john@example.com');
 
 -- --------------------------------------------------------
 
@@ -133,9 +207,46 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
 (5, 'Mira Jamous', 'mira@gmail.com', '$2a$10$bT049AtBAdSsBWKLZSvOJ.o598u6pS/jPQEmbUPDhATAPExGj71.G', 'user'),
 (6, 'Nadia', 'nadia@gmail.com', '$2a$10$g3zWu31KMuFGCyohaX4Lv.Qwlg6zt3ibM8ki01MsuwcgAtYQPc9J.', 'user');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `volunteer`
+--
+
+CREATE TABLE `volunteer` (
+  `id` int(20) NOT NULL,
+  `AID` int(20) NOT NULL,
+  `Name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `volunteer`
+--
+
+INSERT INTO `volunteer` (`id`, `AID`, `Name`) VALUES
+(3, 3, 'sara');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `activity`
+--
+ALTER TABLE `activity`
+  ADD PRIMARY KEY (`AID`);
+
+--
+-- Indexes for table `communitygardens`
+--
+ALTER TABLE `communitygardens`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `crops`
+--
+ALTER TABLE `crops`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `knowledge`
@@ -143,6 +254,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
 ALTER TABLE `knowledge`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_userID` (`userID`);
+
+--
+-- Indexes for table `localpartnership`
+--
+ALTER TABLE `localpartnership`
+  ADD PRIMARY KEY (`idProduct`);
 
 --
 -- Indexes for table `ratings`
@@ -171,14 +288,32 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `volunteer`
+--
+ALTER TABLE `volunteer`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `activity`
+--
+ALTER TABLE `activity`
+  MODIFY `AID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `knowledge`
 --
 ALTER TABLE `knowledge`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `localpartnership`
+--
+ALTER TABLE `localpartnership`
+  MODIFY `idProduct` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -196,13 +331,19 @@ ALTER TABLE `resources`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `volunteer`
+--
+ALTER TABLE `volunteer`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
