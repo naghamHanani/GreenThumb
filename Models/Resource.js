@@ -12,6 +12,21 @@ class ResourceModel{
             })
         })
     }
+    static async findOne(fieldName,fieldValue) {
+       
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM resources WHERE ${fieldName} = ?`;
+            db.query(sql, [fieldValue], (err, results) => {
+                if (err) {
+                    reject(err);
+                    console.log(err)
+                } else {
+                    
+                    resolve(results.length > 0 ? results[0] : null);
+                }
+            });
+        });
+    }
 
     static async addResource(name,type,availability,ownerID){
 
@@ -41,14 +56,17 @@ class ResourceModel{
         })
     }
     
-    static async editResource(id,name,type,availability,ownerID){
-        return new Promise(resolve=>{
-        db.query("update resources set name=?, type=? , availability=?, ownerID=? where id=?",[name,type,availability,ownerID,id],(e,r)=>{
-            if(!e)
-                resolve(r)
-        })
-    })
-    }
+    // static async editResource(id,name,type,availability,ownerID){
+    //     return new Promise(resolve=>{
+    //     db.query("update resources set name=?, type=? , availability=?, ownerID=? where id=?",[name,type,availability,ownerID,id],(e,r)=>{
+    //         if(!e)
+    //             resolve(r)
+    //     })
+    // })
+    // }
+
+
+    
 }
 
 module.exports=ResourceModel
