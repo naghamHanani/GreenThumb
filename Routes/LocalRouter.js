@@ -5,19 +5,19 @@ const Lcont = require('../Controllers/LocalPartnershipController')
 
 
 //view all Local
-router.get('/getLocal',Lcont.getAllLocal)
+router.get('/',Lcont.getAllLocal)
  
 //view specific Local
-router.get('/getLocal/:idProduct', Lcont.getLocalById);
+router.get('/:idProduct', Lcont.getLocalById);
 
 //add Local
-router.post('/addLocal',Lcont.addLocal)
+router.post('/',Lcont.addLocal)
 
 //delete Local
-router.delete('/deleteLocal/:idProduct',Lcont.deleteLocal)
+router.delete('/:idProduct',Lcont.deleteLocal)
 
 //edit Local
-router.patch('/editLocal/:idProduct', Lcont.updateLocal)
+router.patch('/:idProduct', Lcont.updateLocal)
 
 
 module.exports=router
