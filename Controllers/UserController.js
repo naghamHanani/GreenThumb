@@ -2,8 +2,19 @@ const userModel=require('../Models/User')
 const bcryptjs=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const { JWT_SECRET_KEY } = require('../Middleware/checkAuth');
+const {loginSchema, signupSchema}=require('../Validator/validation')
+const connection =require('../Config/DBconnection')
+
 
 function signUp(req,res){
+
+    const { error } = signupSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+    if (!req.body || Object.keys(req.body).length === 0) {
+        return res.status(400).json({ message: 'Request body is missing or empty' });
+    } 
 
     userModel.findOne({where : {email : req.body.email}}).then(result=>{
         if(result)
@@ -91,20 +102,26 @@ function logIn(req,res){
 }
 
 function logOut(req,res){
-    const token = req.header('Authorization');
-    
-    userModel.deleteToken(token).then(result=>{
-     console.log('Token removed from the database');
-     return res.status(200).json( {
-        "message": "Logout successful!"
-    })
-    }).catch(error=>{
-        console.error(error);
-        return res.status(500).json({ error: 'An error occurred while logging out' });
-     
-    })
-    
 
+    try {
+      const token = req.header('Authorization').split(' ')[1]; 
+        console.log(token)
+      const sql = `DELETE FROM tokens WHERE token = "${token}"`;
+      connection.execute(sql, (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: 'An error occurred while logging out' });
+        }
+        console.log('Token removed from the database');
+      });
+  
+     return res.status(200).json( {
+        "message": "Logout successful...See you soon!"
+    })
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.stack );
+    }
 }
 
 

@@ -1,5 +1,6 @@
 
 const resourceModel=require('../Models/resource')
+const userModel=require('../Models/User')
 const {validationResult}=require("express-validator")
 class ResourceController{
 
@@ -10,16 +11,31 @@ class ResourceController{
     }
 
     static async addResource(req,res){
-        var name=req.body.name
-        var type=req.body.type
-        var availability=req.body.availability
-        var ownerID=req.body.ownerID
+      try{
+        const { name, type, availability, ownerID } = req.body;
+
+        if (!name || !type || !ownerID) {
+            return res.status(400).json({ error: 'Missing required fields.' });
+        }
+        else{
+        const user = await userModel.findOne('id', ownerID);
+        if (!user) {
+            return res.status(404).json({ error: 'The owner is not a registered user!' });
+        }
+        else{
         var x = await resourceModel.addResource(name,type,availability,ownerID)
 
         if(x==true)
             res.send("Added successfully!")
         else
             res.send("Failed to add!")
+        }
+    }
+      }catch(error){
+        console.error('Error adding resource:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+      } 
+       
 
     }
 
