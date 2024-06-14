@@ -41,14 +41,14 @@ class ResourceModel{
         })
     }
     
-    static async editResource(id,name,type,availability,ownerID){
-        return new Promise(resolve=>{
-        db.query("update resources set name=?, type=? , availability=?, ownerID=? where id=?",[name,type,availability,ownerID,id],(e,r)=>{
-            if(!e)
-                resolve(r)
-        })
-    })
-    }
+    // static async editResource(id,name,type,availability,ownerID){
+    //     return new Promise(resolve=>{
+    //     db.query("update resources set name=?, type=? , availability=?, ownerID=? where id=?",[name,type,availability,ownerID,id],(e,r)=>{
+    //         if(!e)
+    //             resolve(r)
+    //     })
+    // })
+    // }
 }
 
 module.exports=ResourceModel

@@ -19,7 +19,14 @@ const signupSchema = Joi.object({
     password: Joi.string().pattern(/^(?=.*[a-zA-Z])(?=.*[0-9])/).min(8).required()
 }).unknown(true);
 
+const resourcesSchema=Joi.object({
+    name: Joi.string().required(),
+    type : Joi.string().required(),
+    availiability: Joi.boolean().required(),
+    ownerID : Joi.number().required()
+
+})
 
 module.exports={
-    loginSchema,signupSchema
+    loginSchema,signupSchema,resourcesSchema
 }
