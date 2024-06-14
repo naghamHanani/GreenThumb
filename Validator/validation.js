@@ -30,3 +30,15 @@ const resourcesSchema=Joi.object({
 module.exports={
     loginSchema,signupSchema,resourcesSchema
 }
+const knowledgeSchema = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    author: Joi.string().required()
+});
+
+module.exports = {
+    loginSchema,
+    signupSchema,
+    resourcesSchema,
+    knowledgeSchema
+};

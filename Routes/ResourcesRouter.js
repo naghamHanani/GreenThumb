@@ -9,13 +9,11 @@ const router = require('express').Router()
 
 
 
-router.get("/",ResourceController.getAllResources)
-
-router.post("/",checkAuth,ResourceController.addResource) //user should add token in autherizatu=ion header
-
-router.delete("/:id",[check("id").exists().withMessage("id is required").isNumeric().withMessage("id should be only number")],checkAuth,ResourceController.deleteResource)
-
-router.patch("/:id",[check("id").exists().withMessage("id is required").isNumeric().withMessage("id should be only number")],checkAuth,ResourceController.editResource)
+router.get("/resources",ResourceController.getAllResources)
+router.post("/resources",ResourceController.addResource)//add checkAuthMiddleware.checkAuth,
+//the checker is a middlewear
+router.post("/deleteresource",[check("id").exists().withMessage("id is required").isNumeric().withMessage("id should be only number")],ResourceController.deleteResource)
+router.post("/editresources",ResourceController.editResource)
 
 
 
