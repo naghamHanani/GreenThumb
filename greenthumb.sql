@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2024 at 04:42 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Generation Time: Jun 14, 2024 at 10:28 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,150 +24,85 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `knowledge`
+-- Table structure for table `activity`
 --
 
-CREATE TABLE `knowledge` (
-  `id` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `author` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `total_rating` int(11) DEFAULT 0,
-  `num_ratings` int(11) DEFAULT 0
+CREATE TABLE `activity` (
+  `AID` int(20) NOT NULL,
+  `ActivityName` varchar(50) NOT NULL,
+  `Period_of_time` int(20) NOT NULL,
+  `gardenID` int(20) NOT NULL,
+  `Event_manage_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `knowledge`
+-- Dumping data for table `activity`
 --
 
-INSERT INTO `knowledge` (`id`, `userID`, `title`, `content`, `author`, `created_at`, `updated_at`, `total_rating`, `num_ratings`) VALUES
-(2, 2, 'Watering Plants in winter', 'Remember to adjust your watering habits for winter! Check soil moisture regularly and water less frequently to accommodate slower growth. Morning watering and using room temperature water can help too.', 'John Doey', '2024-06-14 16:17:11', '2024-06-14 17:34:32', 4, 2);
+INSERT INTO `activity` (`AID`, `ActivityName`, `Period_of_time`, `gardenID`, `Event_manage_id`) VALUES
+(2, 'Garden cleaning', 8, 8, 3),
+(4, 'Watering plants', 3, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ratings`
+-- Table structure for table `localpartnership`
 --
 
-CREATE TABLE `ratings` (
-  `id` int(11) NOT NULL,
-  `knowledge_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+CREATE TABLE `localpartnership` (
+  `idProduct` int(20) NOT NULL,
+  `Product` varchar(50) NOT NULL,
+  `company` varchar(50) NOT NULL,
+  `CostPrice` int(20) NOT NULL,
+  `AdvertisementDuration` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ratings`
+-- Dumping data for table `localpartnership`
 --
 
-INSERT INTO `ratings` (`id`, `knowledge_id`, `user_id`, `rating`, `created_at`, `updated_at`) VALUES
-(2, 2, 5, 3, '2024-06-14 13:36:41', '2024-06-14 13:36:41'),
-(7, 2, 6, 4, '2024-06-14 14:31:55', '2024-06-14 14:31:55');
+INSERT INTO `localpartnership` (`idProduct`, `Product`, `company`, `CostPrice`, `AdvertisementDuration`) VALUES
+(12, 'cheese', 'zw', 20, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `resources`
+-- Table structure for table `volunteer`
 --
 
-CREATE TABLE `resources` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `type` varchar(200) NOT NULL,
-  `availability` tinyint(1) NOT NULL,
-  `ownerID` varchar(200) NOT NULL
+CREATE TABLE `volunteer` (
+  `id` int(20) NOT NULL,
+  `AID` int(20) NOT NULL,
+  `Name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `resources`
+-- Dumping data for table `volunteer`
 --
 
-INSERT INTO `resources` (`id`, `name`, `type`, `availability`, `ownerID`) VALUES
-(1, 'basket', 'tools', 0, '1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tokens`
---
-
-CREATE TABLE `tokens` (
-  `id` int(11) NOT NULL,
-  `token` varchar(500) NOT NULL,
-  `userEmail` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tokens`
---
-
-INSERT INTO `tokens` (`id`, `token`, `userEmail`) VALUES
-(6, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hZGlhQGdtYWlsLmNvbSIsInVzZXJJZCI6NiwiaWF0IjoxNzE4Mzc1MTczfQ.YEy8apVV3oQMSzIpWMAj185TjTO47e5VgTLBk9ycDfM', 'nadia@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `role` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'nagham', 'n123@gmail.com', '$2a$10$SBkbfkQrhO3yncCVmsYkNuLAKxS8DunmC4I3TNghQOYJxFK7PxKKm', 'admin'),
-(2, 'John Doe', 'john@example.com', '$2a$10$ZTw1spnwSotVdIvmPR2KN.ii5SMXmhJ7HE2IPd2lD27uOiEoWW.mq', 'user'),
-(5, 'Mira Jamous', 'mira@gmail.com', '$2a$10$bT049AtBAdSsBWKLZSvOJ.o598u6pS/jPQEmbUPDhATAPExGj71.G', 'user'),
-(6, 'Nadia', 'nadia@gmail.com', '$2a$10$g3zWu31KMuFGCyohaX4Lv.Qwlg6zt3ibM8ki01MsuwcgAtYQPc9J.', 'user');
+INSERT INTO `volunteer` (`id`, `AID`, `Name`) VALUES
+(3, 3, 'sara');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `knowledge`
+-- Indexes for table `activity`
 --
-ALTER TABLE `knowledge`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_userID` (`userID`);
+ALTER TABLE `activity`
+  ADD PRIMARY KEY (`AID`);
 
 --
--- Indexes for table `ratings`
+-- Indexes for table `localpartnership`
 --
-ALTER TABLE `ratings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `knowledge_id` (`knowledge_id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE `localpartnership`
+  ADD PRIMARY KEY (`idProduct`);
 
 --
--- Indexes for table `resources`
+-- Indexes for table `volunteer`
 --
-ALTER TABLE `resources`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tokens`
---
-ALTER TABLE `tokens`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
+ALTER TABLE `volunteer`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -175,51 +110,22 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `knowledge`
+-- AUTO_INCREMENT for table `activity`
 --
-ALTER TABLE `knowledge`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `activity`
+  MODIFY `AID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `ratings`
+-- AUTO_INCREMENT for table `localpartnership`
 --
-ALTER TABLE `ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `localpartnership`
+  MODIFY `idProduct` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `resources`
+-- AUTO_INCREMENT for table `volunteer`
 --
-ALTER TABLE `resources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `tokens`
---
-ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `knowledge`
---
-ALTER TABLE `knowledge`
-  ADD CONSTRAINT `fk_userID` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `ratings`
---
-ALTER TABLE `ratings`
-  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`knowledge_id`) REFERENCES `knowledge` (`id`),
-  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `volunteer`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
