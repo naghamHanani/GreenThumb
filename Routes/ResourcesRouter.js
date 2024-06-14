@@ -11,7 +11,7 @@ const router = require('express').Router()
 
 router.get("/",ResourceController.getAllResources)
 
-router.post("/",checkAuth,ResourceController.addResource) //user should add token in autherizatu=ion header
+router.post("/",checkAuth,ResourceController.addResource)
 
 router.delete("/:id",[check("id").exists().withMessage("id is required").isNumeric().withMessage("id should be only number")],checkAuth,ResourceController.deleteResource)
 

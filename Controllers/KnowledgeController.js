@@ -3,7 +3,6 @@ const rateModel = require('../Models/Rating');
 const { knowledgeSchema } = require('../Validator/validation');
 const Fuse = require('fuse.js');
 
-// Function to share knowledge
 async function shareKnowledge(req, res) {
     const { error } = knowledgeSchema.validate(req.body); // Validate the input
     if (error) {
@@ -73,7 +72,7 @@ async function deleteKnowledge(req, res) {
 }
 async function addRating(req, res) {
     const { knowledgeId, rating } = req.body;
-    const userId = req.user.userId; // Assuming you have the userId in the JWT payload
+    const userId = req.user.userId; // the userId is in the JWT payload
 
     // Validate the rating
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
