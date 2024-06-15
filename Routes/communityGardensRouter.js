@@ -1,14 +1,22 @@
 const express = require('express');
-const router = require('express').Router()
-const communityGardensController = require('../Controllers/communitycontroller');
-const authenticate = require('../Middleware/checkAuth');
+const router = express.Router();
+const communityGardenController = require('../Controllers/CommunityGardensController');
+const {checkAuth} = require('../Middleware/checkAuth');
 
-router.post('/', authenticate, communityGardensController.create);
-router.get('/', authenticate, communityGardensController.findByUserId);
-router.put('/:id', authenticate, communityGardensController.update);
-router.delete('/:id', authenticate, communityGardensController.delete);
+console.log(communityGardenController);
+// Create a community garden
+router.post('/', checkAuth, communityGardenController.createCommunityGarden);
 
+// Retrieve all community gardens
+router.get('/', checkAuth, communityGardenController.findAllCommunityGardens);
+
+// Retrieve a single community garden by ID
+router.get('/:id', checkAuth, communityGardenController.findCommunityGardenById);
+
+// Update a community garden
+router.put('/:id', checkAuth, communityGardenController.updateCommunityGarden);
+
+// Delete a community garden
+router.delete('/:id', checkAuth, communityGardenController.deleteCommunityGarden);
 
 module.exports = router;
-
-

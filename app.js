@@ -11,9 +11,9 @@ const trefleRouter=require('./Routes/TrefleRouter')
 const VolunteerRouter=require('./Routes/VolunteerRouter')
 const LocalRoute=require('./Routes/LocalRouter')
 const EventRoute=require('./Routes/EventRouter')
-const communityGardensRoutes = require('./Routes/communityGardensRouter');
-const gardenerProfilesRoutes = require('./Routes/gardenerProfiles');
-const cropRoutes = require('./Routes/crops');
+const communityGardensRoutes = require('./Routes/CommunityGardensRouter')
+const gardenerProfilesRoutes = require('./Routes/GardenerRouter');
+const cropRoutes = require('./Routes/CropsRouter');
 
 const bodyparser=require('body-parser')
 const {check}=require("express-validator")
@@ -33,7 +33,7 @@ app.use('/Local',LocalRoute)
 app.use('/Events',EventRoute)
 app.use('/trefle',trefleRouter)
 app.use('/community-gardens', communityGardensRoutes);
-app.use('/gardener-profiles', gardenerProfilesRoutes);
+app.use('/gardener', gardenerProfilesRoutes);
 app.use('/crops', cropRoutes);
 app.post('/sign-up',userRoute)
 app.post('/log-in',userRoute)

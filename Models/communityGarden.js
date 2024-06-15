@@ -1,55 +1,65 @@
-const db = require('../Config/DBconnection')
+const db = require('../Config/DBconnection');
 
-class CommunityGarden {
-    static create(data) {
+class CommunityGardenModel {
+    static async create(data) {
         return new Promise((resolve, reject) => {
-            const query = 'INSERT INTO CommunityGardens (name, location, availablePlots,growingConditions) VALUES (?, ?, ?, ?)';
-            db.query(query, [data.name, data.location, data.availablePlots, data.growingConditions], (error, results) => {
-                if (error) return reject(error);
-                resolve(results.insertId);
+            const query = 'INSERT INTO CommunityGardens (name, location, availablePlots, growingConditions) VALUES (?, ?, ?, ?)';
+            db.query(query, [data.name, data.location, data.availablePlots, data.growingConditions], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result.insertId);
             });
         });
     }
 
-    static findAll() {
+    static async findAll() {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM CommunityGardens';
-            db.query(query, (error, results) => {
-                if (error) return reject(error);
+            db.query(query, (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
                 resolve(results);
             });
         });
     }
 
-    static findById(id) {
+    static async findById(id) {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM CommunityGardens WHERE id = ?';
-            db.query(query, [id], (error, results) => {
-                if (error) return reject(error);
-                resolve(results[0]);
+            db.query(query, [id], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result.length ? result[0] : null);
             });
         });
     }
 
-    static update(id, data) {
+    static async update(id, data) {
         return new Promise((resolve, reject) => {
             const query = 'UPDATE CommunityGardens SET name = ?, location = ?, availablePlots = ?, growingConditions = ? WHERE id = ?';
-            db.query(query, [data.name, data.location, data.availablePlots, data.growingConditions, data.id], (error, results) => {
-                if (error) return reject(error);
-                resolve(results.affectedRows > 0);
+            db.query(query, [data.name, data.location, data.availablePlots, data.growingConditions, id], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result.affectedRows > 0);
             });
         });
     }
 
-    static delete(id) {
+    static async delete(id) {
         return new Promise((resolve, reject) => {
             const query = 'DELETE FROM CommunityGardens WHERE id = ?';
-            db.query(query, [id], (error, results) => {
-                if (error) return reject(error);
-                resolve(results.affectedRows > 0);
+            db.query(query, [id], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result.affectedRows > 0);
             });
         });
     }
 }
 
-module.exports = CommunityGarden;
+module.exports = CommunityGardenModel;
